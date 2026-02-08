@@ -3,7 +3,7 @@ Takes in a hell let loose vod and attempts to extract every frame where the map 
 
 
 ### Prerequisites
-Required python will need.
+Required python packages.
 * opencv-python
 * FreeSimpleGUI
 * numpy
