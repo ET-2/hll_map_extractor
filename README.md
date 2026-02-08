@@ -4,7 +4,7 @@ Takes in a hell let loose vod and attempts to extract every frame where the map 
 
 ### Prerequisites
 Packages python will need.
-* cv2
+* opencv-python
 * FreeSimpleGUI
 * numpy
 * rapidocr
