@@ -54,7 +54,7 @@ class MapEngine:
 				key='maps')
 			],
 			[sg.Text('Selected File:', pad=(10, 10)), sg.FileBrowse(button_text='Browse')],
-			[sg.Button('Start'), sg.Button('Quit'), sg.Text('Cycle: 0', key='-OUTPUT-'+sg.WRITE_ONLY_KEY)],
+			[sg.Button('Start'), sg.Button('Quit'), sg.Text('Estimated Progress: ', key='-OUTPUT-'+sg.WRITE_ONLY_KEY)],
 			[sg.MLine(size=(65,20), autoscroll=True, write_only=True, key='-WINDOW-'+sg.WRITE_ONLY_KEY)],
 		]
 
@@ -131,7 +131,6 @@ class MapEngine:
 
 
 	def check_frame(self, des, sift, masked, video, frame):
-		self.window['-OUTPUT-'+sg.WRITE_ONLY_KEY].update(f'Cycle: {self.CYCLE}')
 		matches = self._flann(masked, des, sift)
 		good = []
 		for m,n in matches:
@@ -199,6 +198,9 @@ class MapEngine:
 		padding_height = int((frame_height - template_h) // 2)
 		mask_top_left = (padding_width, padding_height)
 		mask_bottom_right = ((padding_width + template_w), (padding_height + template_h))
+		total_frames = int(cap.get(cv.CAP_PROP_FRAME_COUNT))
+		fps = cap.get(cv.CAP_PROP_FPS)
+		total_ms = (total_frames / fps) * 1000
 		offset = 500
 
 		# Establish video params
@@ -248,6 +250,7 @@ class MapEngine:
 				self._sanity_check()
 
 			self.CYCLE += 1
+			self.window['-OUTPUT-'+sg.WRITE_ONLY_KEY].update(f'Estimated Progress: {((offset/total_frames)*10):.2f}%')
 			self.window.refresh()
 
 		# Release the video capture object
