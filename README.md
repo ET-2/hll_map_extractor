@@ -8,3 +8,4 @@ Packages python will need.
 * FreeSimpleGUI
 * numpy
 * rapidocr
+* onnxruntime
